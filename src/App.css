@@ -1,38 +1,114 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
+
+body  {
+  height: 100%;
+  background: #e5e5e5;
+}
+
+/* 
 .App {
+  margin: 0 auto;
   text-align: center;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  color: #333333;
+  background: #e5e5e5;
+  height: 100vh;
+} */
+/* 
+.AppHeader {
+  height: 60px;
+  position: absolute;
+  width: 100%;
+  text-align: left;
+  background: #ffffff;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+} */
+
+/* .section {
+  width: 1000px;
+  margin: 0 auto;
+} */
+
+/* .Section {
+  position: absolute;
+  width: 400px;
+  background: #ffffff;
+  border-radius: 10px;
+} */
+
+/*.loginSection {
+  height: 350px;
+  top: 90px;
+  border-radius: 10px;
+  background: #ffffff;
+} */
+
+/* .FVSection {
+  height: 450px;
+  top: 460px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.searchSection {
+  width: 580px;
+  height: 820px;
+  top: 90px;
+  margin-left: 430px;
+} */
+
+/*.App {
+  text-align: center;
+  margin: 70px auto;
+  width : 400px;
+  font-size: 0.85em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.searchOpen {
+  text-align: center;
+  margin: 70px auto;
+  width : 700px;
+  font-size: 0.85em;
+  
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+
+.AppTitle {
+  font-weight: bold;
+  font-size:0.9em;
+  margin-top:10px;
 }
 
-.App-link {
-  color: #61dafb;
+.mainTitle {
+  font-weight: bold;
+  font-size:1.2em;
+  margin-top:10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.idPass{
+  margin-top:10px
 }
+
+.idBox {
+  margin-top: 10px;
+  
+}
+
+#user, #pass {
+  text-align: left;
+  
+}
+
+.companyArea {
+  float: left;
+  margin-left: 120px;
+  width: 400px
+}
+
+.serverName{
+  margin-top: 100px;
+}
+
+
+*/
+
