@@ -6,10 +6,13 @@ import Login from '../component/loginComponent/Login';
 import FPListTemplete from '../component/FPComponent/FPListTemplete';
 import axios from 'axios';
 import SearchTemplate from '../component/searchComponent/SearchTemplate';
-import { time, onHref } from '../common/globalFunction';
+import { time, onHref, idCheck } from '../common/globalFunction';
+import { enableES5 } from 'immer';
 import produce from 'immer';
-
+//익스플로러에서 immer 사용하기 위해 실행
+enableES5();
 var searchList = [];
+var url = 'https://api.himgt.net/commonLogin/list/empty';
 const Main = () => {
   const useStyles = makeStyles(() => ({
     App: {
@@ -39,19 +42,21 @@ const Main = () => {
       setIsRemember(true);
       setId(localStorage.getItem('id'));
       setPassword(localStorage.getItem('pass'));
+      //if (id !== '') url = 'https://api.himgt.net/commonLogin/list/' + id;
     }
+    axios.get(url).then((response) => {
+      setAllList((AllList) => response.data);
+    });
   }, []);
 
   const onLogin = useCallback((id, password) => {
+    idCheck(id, password);
     setId((id) => id);
     setPassword((password) => password);
-    var url = 'https://api.himgt.net/commonLogin/list/' + id;
-    if (id === '') url = 'https://api.himgt.net/commonLogin/list/empty';
-
+    if (id !== '') url = 'https://api.himgt.net/commonLogin/list/' + id;
     axios.get(url).then((response) => {
       const data = response.data;
       setAllList((AllList) => response.data);
-      searchList = response.data;
       var getFVList = data.filter((item) => item.favorite === 'true');
       setFavoriteList((favoriteList) => getFVList);
     });
@@ -79,7 +84,7 @@ const Main = () => {
           },
         })
         .then((response) => {
-          console.log(response);
+          console.log(response.data);
         });
       setFavoriteList((favoriteList) =>
         favoriteList.filter((item) => item.htmComCd !== htmComCd),
@@ -95,11 +100,13 @@ const Main = () => {
           htmAlias: search.htmAlias,
           htmComCd: search.htmComCd,
           htmComNm: search.htmComNm,
-          //htmPerSabun: id,
+          htmPerSabun: id,
           userId: id,
         })
         .then((response) => {
-          console.log(response);
+          if (response.data.resultCode !== '200') {
+            alert('아이디 또는 비밀번호를 확인하세요.');
+          }
         });
       setFavoriteList((favoriteList) =>
         produce(favoriteList, (draft) => {
@@ -120,37 +127,26 @@ const Main = () => {
 
   const updatePrevList = useCallback(
     (search) => {
-      setPrevLists((prevLists) =>
-        produce(prevLists, (draft) => {
-          draft.push({
-            htmComNm: search.htmComNm,
-            htmComCd: search.htmComCd,
-            htmAlias: search.htmAlias,
-            id: id,
-            time: time(),
-          });
-          localStorage.setItem('prevList', JSON.stringify(draft));
-        }),
-      );
+      if (id !== '') {
+        setPrevLists((prevLists) =>
+          produce(prevLists, (draft) => {
+            draft.push({
+              htmComNm: search.htmComNm,
+              htmComCd: search.htmComCd,
+              htmAlias: search.htmAlias,
+              id: id,
+              time: time(),
+            });
+            localStorage.setItem('prevList', JSON.stringify(draft));
+          }),
+        );
+      }
       onHref(search, id, password);
     },
     [id, password],
   );
 
-  const onHeart = useCallback(
-    (search, favorite) => {
-      if (favorite !== 'true') {
-        changeFavorite(search, favorite);
-        FVInsert(search);
-      } else {
-        changeFavorite(search, favorite);
-        FVRemove(search.htmComCd);
-      }
-    },
-    [FVRemove, FVInsert],
-  );
-
-  const changeFavorite = (search, bool) => {
+  const changeFavorite = useCallback((search, bool) => {
     var setbool = 'false';
     bool !== 'true' && (setbool = 'true');
     setAllList((AllList) =>
@@ -163,7 +159,23 @@ const Main = () => {
           : allList,
       ),
     );
-  };
+  }, []);
+
+  const onHeart = useCallback(
+    (search, favorite) => {
+      if (idCheck(id, password) === true) {
+        if (favorite !== 'true') {
+          changeFavorite(search, favorite);
+          FVInsert(search);
+        } else {
+          changeFavorite(search, favorite);
+          FVRemove(search.htmComCd);
+        }
+      }
+    },
+    [FVRemove, FVInsert, changeFavorite, id, password],
+  );
+
   return (
     <>
       <div className={classes.App}>
@@ -188,8 +200,6 @@ const Main = () => {
           />
           <SearchTemplate
             AllList={AllList}
-            searchList={searchList}
-            setAllList={setAllList}
             updatePrevList={updatePrevList}
             onHeart={onHeart}
           />
