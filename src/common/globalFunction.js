@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const lcst = (key, value, isClear) => {
   localStorage.setItem(key, value);
   if (isClear) {
@@ -32,4 +34,23 @@ export const onHref = (search, id, password) => {
   var url = 'https://' + search.htmAlias + '.himgt.net' + arg;
 
   document.location.href = url;
+};
+
+export const idCheck = (id, password) => {
+  console.log('id', id);
+  console.log('password', password);
+  if (id === '' || password === '') {
+    alert('아이디 또는 비밀번호를 확인하세요.');
+    return false;
+  }
+  return true;
+};
+
+export const getAPI = (url, setAllList, setFavoriteList) => {
+  axios.get(url).then((response) => {
+    const data = response.data;
+    setAllList((AllList) => response.data);
+    var getFVList = data.filter((item) => item.favorite === 'true');
+    if (getFVList.length !== 0) setFavoriteList(getFVList);
+  });
 };

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchListitem from './SearchListitem';
+import { List } from 'react-virtualized';
 
 const SearchList = ({ AllList, updatePrevList, onHeart }) => {
   const useStyles = makeStyles(() => ({
@@ -11,18 +12,36 @@ const SearchList = ({ AllList, updatePrevList, onHeart }) => {
     },
   }));
 
-  const classes = useStyles();
-  return (
-    <div className={classes.searchListArea}>
-      {AllList.map((searchitem, index) => (
+  const rowRenderer = useCallback(
+    (props) => {
+      const searchitem = AllList[props.index];
+
+      return (
         <SearchListitem
           searchitem={searchitem}
-          key={index + searchitem}
+          key={props.key}
           updatePrevList={updatePrevList}
           onHeart={onHeart}
+          style={props.style}
+          AllList={AllList}
         />
-      ))}
-    </div>
+      );
+    },
+    [AllList, updatePrevList, onHeart],
+  );
+
+  const classes = useStyles();
+  return (
+    <List
+      className={classes.searchListArea}
+      width={550}
+      height={680}
+      rowCount={AllList.length}
+      rowHeight={45}
+      rowRenderer={rowRenderer}
+      list={AllList}
+      style={{ outline: 'none' }}
+    />
   );
 };
 

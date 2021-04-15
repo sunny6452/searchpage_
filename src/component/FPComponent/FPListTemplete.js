@@ -32,6 +32,12 @@ const FVListTemplete = ({
       fontWeight: 'bold',
       fontSize: 14,
     },
+    taps: {
+      marginTop: 20,
+      '& .MuiTabs-indicator': {
+        background: '#1976D2',
+      },
+    },
   }));
 
   const classes = useStyles();
@@ -49,16 +55,11 @@ const FVListTemplete = ({
             //첫번째 탭일 때 value가 0, 두번째 탭일 때 value 1
             value={value}
             onChange={tapChange}
-            indicatorColor="primary"
-            TabIndicatorProps={{
-              style: { background: '#1976D2' },
-            }}
-            style={{ marginTop: 20 }}
             className={classes.taps}
             centered
           >
-            <Tab className={classes.FVtap} label="즐겨찾기" name="FV" />
-            <Tab className={classes.PrevTab} name="prev" label="최근기록" />
+            <Tab className={classes.FVtap} label="즐겨찾기" />
+            <Tab className={classes.PrevTab} label="최근기록" />
           </Tabs>
           <br />
           {value === 0 ? (

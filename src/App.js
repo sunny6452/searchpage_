@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-
 import Main from './view/Main';
 import Test from './view/Test';
 function App() {
   const [test, setTest] = useState(true);
-  return <>{test ? <Main /> : <Test />}</>;
+  return (
+    <>
+      <Main />
+    </>
+  );
 }
 
 export default App;

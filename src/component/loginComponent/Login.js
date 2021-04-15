@@ -19,19 +19,19 @@ const Login = ({
     Section: {
       position: 'absolute',
       width: '400px',
-      background: '#ffffff',
+      backgroundColor: '#ffffff',
       borderRadius: '10px',
     },
     loginSection: {
       height: '350px',
       top: '90px',
       borderRadius: '10px',
-      background: '#ffffff',
+      backgroundColor: '#ffffff',
     },
     loginTitle: {
       position: 'absolute',
       marginTop: '55px',
-      marginLeft: '-130px',
+      marginLeft: '70px',
       fontWeight: 'bold',
       fontSize: '18px',
       lineHeight: '26px',
@@ -44,12 +44,12 @@ const Login = ({
     },
     searchButton: {
       '&.MuiButton-root:hover': {
-        background: '#3474E4',
+        backgroundColor: '#3474E4',
         fontWeight: 'bold',
       },
       width: 270,
       height: 45,
-      background: '#3474E4',
+      backgroundColor: '#3474E4',
       borderRadius: 10,
       marginTop: 10,
       fontSize: 16,
@@ -62,7 +62,7 @@ const Login = ({
   const classes = useStyles();
   return (
     <article className={`${classes.Section} ${classes.loginSection} `}>
-      <span className={classes.loginTitle}>HTMS 계정 정보</span>
+      <h3 className={classes.loginTitle}>HTMS 계정 정보</h3>
       <LoginInput
         reset={reset}
         setUser={setId}
@@ -80,7 +80,6 @@ const Login = ({
         inputName="pass"
       />
       <Checkbox
-        defaultChecked
         size="small"
         className={classes.loginChecked}
         inputProps={{ 'aria-label': 'checkbox with small size' }}
@@ -100,9 +99,6 @@ const Login = ({
         variant="contained"
         className={classes.searchButton}
         color="primary"
-        TabIndicatorProps={{
-          style: { background: '#1976D2' },
-        }}
         disableElevation
         onClick={(e) => {
           onLogin(id, password);

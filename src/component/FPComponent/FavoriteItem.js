@@ -19,6 +19,7 @@ const Favoriteitem = ({ favorite, onHeart, updatePrevList }) => {
     },
     FVIcon: {
       color: 'red',
+      marginRight: '15px',
     },
     searchCPList: {
       color: '#333333',
@@ -28,24 +29,24 @@ const Favoriteitem = ({ favorite, onHeart, updatePrevList }) => {
 
   const classes = useStyles();
   return (
-    <ListItem button className={classes.FVList}>
-      <ListItemAvatar style={{ minWidth: '45px' }}>
+    <div>
+      <ListItem button className={classes.FVList}>
         <FavoriteIcon
           className={classes.FVIcon}
           onClick={(e) => {
             onHeart(favorite, 'true');
           }}
         />
-      </ListItemAvatar>
-      <ListItemText
-        className={classes.searchCPList}
-        primary={favorite.htmComNm}
-        secondary={`${favorite.htmAlias} / ${favorite.htmComCd} / '시간없음'`}
-        onClick={(e) => {
-          updatePrevList(favorite);
-        }}
-      />
-    </ListItem>
+        <ListItemText
+          className={classes.searchCPList}
+          primary={favorite.htmComNm}
+          secondary={`${favorite.htmAlias} / ${favorite.htmComCd} / '시간없음'`}
+          onClick={(e) => {
+            updatePrevList(favorite);
+          }}
+        />
+      </ListItem>
+    </div>
   );
 };
 

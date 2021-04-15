@@ -6,55 +6,50 @@ import ListItemText from '@material-ui/core/ListItemText';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
-const SearchListitem = ({ searchitem, updatePrevList, onHeart }) => {
+const SearchListitem = ({ searchitem, updatePrevList, onHeart, style }) => {
+  console.log('searchitem', searchitem);
   const { htmComNm, htmComCd, htmAlias, favorite } = searchitem;
   const useStyles = makeStyles(() => ({
-    searchIcon: {
-      color: 'red',
-    },
-    searchIcon2: {
-      color: '#CCCCCC',
-    },
     searchList: {
-      width: 480,
-      marginLeft: 50,
       '&:hover': {
-        background: '#EDF7FF;',
+        backgroundColor: '#EDF7FF;',
       },
-    },
-    searchCPList: {
-      color: '#333333',
-      lineHeight: 20,
-      letterSpacing: -0.01,
       '& span': {
+        display: 'inline-block',
         fontSize: '14px',
+        letterSpacing: -0.01,
+        color: '#333333',
+        verticalAlign: 'middle',
+        height: '35px',
+      },
+      '& svg': {
+        marginTop: '10px',
+        marginLeft: '20px',
+        marginRight: '15px',
       },
     },
   }));
 
   const classes = useStyles();
   return (
-    <ListItem button className={classes.searchList}>
-      <ListItemIcon
-        style={{ minWidth: '45px' }}
-        id={htmComCd}
-        onClick={() => onHeart(searchitem, favorite)}
-      >
-        {favorite === 'true' ? (
-          <FavoriteIcon style={{ color: 'red' }} />
-        ) : (
-          <FavoriteBorderIcon style={{ color: '#CCCCCC' }} />
-        )}
-      </ListItemIcon>
-      <ListItemText
-        className={classes.searchCPList}
-        id="최근기록"
-        primary={`${htmComNm} - ${htmAlias} `}
+    <div style={style} className={classes.searchList}>
+      {favorite === 'true' ? (
+        <FavoriteIcon
+          onClick={() => onHeart(searchitem, favorite)}
+          style={{ color: 'red' }}
+        />
+      ) : (
+        <FavoriteBorderIcon
+          onClick={() => onHeart(searchitem, favorite)}
+          style={{ color: '#CCCCCC' }}
+        />
+      )}
+      <span
         onClick={(e) => {
           updatePrevList(searchitem);
         }}
-      />
-    </ListItem>
+      >{`${htmComNm} - ${htmAlias} `}</span>
+    </div>
   );
 };
 
