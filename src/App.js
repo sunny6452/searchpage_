@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
-import Main from './view/Main';
-import Test from './view/Test';
+import RouteView from './view/RouteView';
 function App() {
-  const [test, setTest] = useState(true);
   return (
     <>
-      <Main />
+      <RouteView />
     </>
   );
 }

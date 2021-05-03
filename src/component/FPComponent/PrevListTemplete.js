@@ -8,10 +8,10 @@ const PrevListTemplete = ({ prevLists, updatePrevList }) => {
     FVlistOpen: {
       marginTop: '-10px',
       overflowY: 'auto',
-      height: '360px',
+      height: '720px',
     },
   }));
-  console.log('prevListsTemplate prevList', prevLists);
+
   const classes = useStyles();
   return (
     <div className={classes.FVlistOpen}>

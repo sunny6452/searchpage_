@@ -19,8 +19,8 @@ const FVListTemplete = ({
       borderRadius: '10px',
     },
     FVSection: {
-      height: '450px',
-      top: '460px',
+      height: '820px',
+      top: '90px',
     },
     FVtap: {
       color: '#1976D2',

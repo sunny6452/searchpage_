@@ -27,9 +27,9 @@ const LoginInput = (props) => {
         size="small"
         className={classes.id}
         onChange={(e) => {
-          props.reset();
           props.setUser(e.target.value);
           props.lcst(props.inputName, e.target.value);
+          //props.setAllList(props.lcst(props.inputName, e.target.value));
         }}
         value={props.userValue}
         type={props.label === '비밀번호' ? 'password' : ''}

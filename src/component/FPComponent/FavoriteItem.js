@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
 const Favoriteitem = ({ favorite, onHeart, updatePrevList }) => {
   const useStyles = makeStyles(() => ({

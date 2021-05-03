@@ -7,7 +7,7 @@ const FavoriteTemplete = ({ favoriteList, onHeart, updatePrevList }) => {
     FVlistOpen: {
       marginTop: '-10px',
       overflowY: 'auto',
-      height: '360px',
+      height: '720px',
     },
   }));
 

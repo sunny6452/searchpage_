@@ -1,12 +1,13 @@
 import React from 'react';
 import headerImg from '../img/pd_common_logo.png';
 import { makeStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router';
 
-const Header = (props) => {
+const Header = ({ history }) => {
   const useStyles = makeStyles((theme) => ({
     AppHeader: {
       height: '60px',
-      position: 'absolute',
+      //position: 'absolute',
       width: '100%',
       textAlign: 'left',
       background: '#ffffff',
@@ -42,6 +43,15 @@ const Header = (props) => {
       top: '10px',
       position: 'absolute',
     },
+    login: {
+      position: 'absolute',
+      marginLeft: '920px',
+      top: '15px',
+      '&:hover': {
+        cursor: 'pointer',
+        fontWeight: 'bold',
+      },
+    },
   }));
   const classes = useStyles();
   return (
@@ -52,8 +62,14 @@ const Header = (props) => {
         <span className={classes.headerTitle}>
           등록된 아이디를 이용하여 자동으로 로그인 합니다.
         </span>
+        <span
+          className={classes.login}
+          onClick={(e) => history.push('./login')}
+        >
+          로그아웃
+        </span>
       </div>
     </header>
   );
 };
-export default Header;
+export default withRouter(Header);

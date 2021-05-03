@@ -1,4 +1,3 @@
-import SearchList from './SearchList';
 import SearchAutocomplete from './SearchAutocomplete';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
@@ -20,30 +19,7 @@ const SearchTemplate = ({ AllList, updatePrevList, onHeart }) => {
   }));
 
   const classes = useStyles();
-  /*
-  //입력한 text랑 이름이 같은 리스트만 보이기
-  const search = useCallback(
-    (val) => {
-      setAllList((AllList) =>
-        AllList.filter(
-          (item) => item.htmComNm === val || item.htmAlias === val,
-        ),
-      );
-    },
-    [setAllList],
-  );
 
-  const changeSearch = useCallback(
-    (inputText) => {
-      if (inputText)
-        inputText.htmComNm !== undefined
-          ? search(inputText.htmComNm)
-          : search(inputText);
-      else setAllList((AllList) => ...AllList);
-    },
-    [search, setAllList],
-  );
-*/
   return (
     <article className={`${classes.Section} ${classes.searchSection} `}>
       <SearchAutocomplete
@@ -51,11 +27,6 @@ const SearchTemplate = ({ AllList, updatePrevList, onHeart }) => {
         updatePrevList={updatePrevList}
         onHeart={onHeart}
       />
-      {/*  <SearchList
-          AllList={AllList}
-          updatePrevList={updatePrevList}
-          onHeart={onHeart}
-      /> */}
     </article>
   );
 };
