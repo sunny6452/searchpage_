@@ -66,11 +66,10 @@ const useStyles = makeStyles(() => ({
 
 const SearchAutocomplete = ({ searchList, updatePrevList, onHeart }) => {
   const classes = useStyles();
-
   return (
     <div>
       <Autocomplete
-        //freeSolo
+        freeSolo
         id="free-solo-2-demo"
         options={searchList}
         getOptionLabel={(option) =>
@@ -88,11 +87,8 @@ const SearchAutocomplete = ({ searchList, updatePrevList, onHeart }) => {
         renderInput={(params) => {
           return <TextField {...params} label="회사검색" variant="outlined" />;
         }}
-        getOptionSelected={(option, value) => {
-          //console.log('value1', value);
-          //console.log('option', option);
-          return option.htmComNm === value.htmComNm;
-        }}
+        value=""
+        //openOnFocus={true}
         disableCloseOnSelect={true}
         loading={true}
         //value=""

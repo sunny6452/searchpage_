@@ -64,7 +64,10 @@ const Header = ({ history }) => {
         </span>
         <span
           className={classes.login}
-          onClick={(e) => history.push('./login')}
+          onClick={(e) => {
+            sessionStorage.clear();
+            history.push('./login');
+          }}
         >
           로그아웃
         </span>

@@ -31,6 +31,9 @@ const LoginView = ({ history }) => {
       if (response.data.resultCode !== '200') {
         alert('아이디 또는 비밀번호를 확인하세요.');
       } else {
+        sessionStorage.setItem('userid', id);
+        sessionStorage.setItem('userpw', password);
+        sessionStorage.setItem('sabun', response.data.resultMsg);
         history.push({
           pathname: '/main',
           state: {

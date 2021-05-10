@@ -14,6 +14,9 @@ const PrevListitem = ({ index, prevLists, updatePrevList }) => {
       '&:hover': {
         background: '#EDF7FF;',
       },
+      '& span': {
+        cursor: 'pointer',
+      },
     },
     searchCPList: {
       color: '#333333',
@@ -34,11 +37,16 @@ const PrevListitem = ({ index, prevLists, updatePrevList }) => {
   return (
     <ListItem className={classes.FVList}>
       <ListItemText
-        onClick={(e) => {
-          updatePrevList(search);
-        }}
         className={classes.searchCPList}
-        primary={htmComNm}
+        primary={
+          <span
+            onClick={(e) => {
+              updatePrevList(search);
+            }}
+          >
+            {htmComNm}
+          </span>
+        }
         secondary={`${htmAlias} 
                 / ${htmComCd} 
                 / ${time}`}

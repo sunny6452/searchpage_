@@ -9,6 +9,7 @@ import { time, onHref } from '../common/globalFunction';
 import { enableES5 } from 'immer';
 import styled from 'styled-components';
 import produce from 'immer';
+
 //익스플로러에서 immer 사용하기 위해 실행
 enableES5();
 
@@ -35,34 +36,57 @@ const Main = ({ location, match, history }) => {
     },
   }));
 
-  console.log('main ', location.state);
   const [prevLists, setPrevLists] = useState([]);
   const [AllList, setAllList] = useState([]);
   const [favoriteList, setFavoriteList] = useState([]);
+  const [userid, setUserid] = useState({});
+  const [userpw, setUserpw] = useState({});
+  const [sabun, setSabun] = useState({});
   const classes = useStyles();
-  const { userid, userpw, sabun } = location.state;
+  //const { userid, userpw, sabun } = location.state;
 
   useEffect(() => {
-    if (location.state !== undefined) {
-      axios.post(url, { htmPerSabun: sabun }).then((response) => {
-        console.log('login data', response.data);
-        const data = response.data;
-        setAllList((AllList) => response.data);
-        var getFVList = data.filter((item) => item.favorite === 'true');
-        setFavoriteList((favoriteList) => getFVList);
-        console.log('getFVList', getFVList);
-      });
+    if (sessionStorage.getItem('userid') !== null) {
+      setUserid(sessionStorage.getItem('userid'));
+      setUserpw(sessionStorage.getItem('userpw'));
+      setSabun(sessionStorage.getItem('sabun'));
       var getPVList = [];
       var storageData = JSON.parse(localStorage.getItem('prevList'));
       if (storageData !== null) {
-        getPVList = storageData.filter((item) => item.id === userid);
+        getPVList = storageData.filter(
+          (item) => item.id === sessionStorage.getItem('userid'),
+        );
         setPrevLists((prevLists) => getPVList);
       }
+      axios
+        .post(url, {
+          htmPerSabun: sessionStorage.getItem('sabun'),
+        })
+        .then((response) => {
+          const data = response.data;
+          setAllList((AllList) => response.data);
+          var getFVList = data.filter((item) => item.favorite === 'true');
+
+          var getFVListtime = getFVList.map((fvList) => {
+            var timedata = getPVList
+              .reverse()
+              .find((pvList) => pvList.htmComCd === fvList.htmComCd);
+            return getPVList
+              .reverse()
+              .find((pvList) => pvList.htmComCd === fvList.htmComCd)
+              ? {
+                  ...fvList,
+                  time: timedata.time,
+                }
+              : { ...fvList, time: '방문기록없음' };
+          });
+          setFavoriteList((favoriteList) => getFVListtime);
+        });
     } else {
       alert('로그인 후 이용하세요.');
-      history.push('./login');
+      history.push('/login');
     }
-  }, [userid, sabun, location, history]);
+  }, [location.state, history]);
 
   const FVRemove = useCallback(
     (htmComCd) => {
@@ -106,6 +130,7 @@ const Main = ({ location, match, history }) => {
                   htmComNm: search.htmComNm,
                   htmComCd: search.htmComCd,
                   htmAlias: search.htmAlias,
+                  time: '방문 기록 없음',
                   favorite: 'true',
                 });
                 draft.sort((a, b) =>

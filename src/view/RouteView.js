@@ -7,7 +7,7 @@ const RouteView = () => {
   return (
     <div>
       <Route path="/main" component={Main} />
-      <Route path="/login" component={LoginView} />
+      <Route path={['/login', '/']} component={LoginView} exact={true} />
     </div>
   );
 };

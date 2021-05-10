@@ -12,13 +12,19 @@ const Favoriteitem = ({ favorite, onHeart, updatePrevList }) => {
       height: '72px',
       borderBottom: '1px solid',
       borderBottomColor: '#DDDDDD',
+      cursor: 'text',
+      userSelect: 'auto',
       '&:hover': {
         background: '#EDF7FF;',
+      },
+      '& span': {
+        cursor: 'pointer',
       },
     },
     FVIcon: {
       color: 'red',
       marginRight: '15px',
+      cursor: 'pointer',
     },
     searchCPList: {
       color: '#333333',
@@ -38,11 +44,16 @@ const Favoriteitem = ({ favorite, onHeart, updatePrevList }) => {
         />
         <ListItemText
           className={classes.searchCPList}
-          primary={favorite.htmComNm}
-          secondary={`${favorite.htmAlias} / ${favorite.htmComCd} / '시간없음'`}
-          onClick={(e) => {
-            updatePrevList(favorite);
-          }}
+          primary={
+            <span
+              onClick={(e) => {
+                updatePrevList(favorite);
+              }}
+            >
+              {favorite.htmComNm}
+            </span>
+          }
+          secondary={`${favorite.htmAlias} / ${favorite.htmComCd} / ${favorite.time}`}
         />
       </ListItem>
     </div>
