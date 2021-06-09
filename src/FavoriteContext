@@ -1,0 +1,119 @@
+import axios from 'axios';
+import produce from 'immer';
+import { createContext, useCallback, useState } from 'react';
+
+const FavoriteContext = createContext({
+  favoriteState: { favoriteList: [], AllList: [] },
+  favoriteActions: {
+    setFavoriteList: () => {},
+    setAllList: () => {},
+    onHeart: () => {},
+  },
+});
+
+const FavoriteProvider = (props) => {
+  const [favoriteList, setFavoriteList] = useState([]);
+  const [AllList, setAllList] = useState([]);
+
+  const FVRemove = useCallback((htmComCd, sabun) => {
+    axios
+      .post('https://api.himgt.net/commonLogin/favoriteDelete', {
+        htmComCd: htmComCd,
+        htmPerSabun: sabun,
+      })
+      .then((response) => {
+        if (response.data.resultCode !== '200') {
+          alert('아이디 또는 비밀번호를 확인하세요.');
+          return false;
+        } else {
+          setFavoriteList((favoriteList) =>
+            favoriteList.filter((item) => item.htmComCd !== htmComCd),
+          );
+        }
+      })
+      .catch((e) => {
+        alert('Error!! 관리자에게 문의하세요.');
+      });
+    return true;
+  }, []);
+
+  const FVInsert = useCallback((search, sabun) => {
+    axios
+      .post('https://api.himgt.net/commonLogin/favoriteInsert', {
+        htmAlias: search.htmAlias,
+        htmComCd: search.htmComCd,
+        htmComNm: search.htmComNm,
+        htmPerSabun: sabun,
+      })
+      .then((response) => {
+        if (response.data.resultCode !== '200') {
+          alert('아이디 또는 비밀번호를 확인하세요.');
+          return false;
+        } else {
+          setFavoriteList((favoriteList) =>
+            produce(favoriteList, (draft) => {
+              draft.push({
+                htmComNm: search.htmComNm,
+                htmComCd: search.htmComCd,
+                htmAlias: search.htmAlias,
+                time: '방문 기록 없음',
+                favorite: 'true',
+              });
+              draft.sort((a, b) =>
+                a.htmComNm < b.htmComNm ? -1 : a.htmComNm > b.htmComNm ? 1 : 0,
+              );
+            }),
+          );
+        }
+      })
+      .catch((e) => {
+        alert('Error!! 관리자에게 문의하세요.');
+      });
+    return true;
+  }, []);
+
+  const changeFavorite = useCallback((search, bool) => {
+    var setbool = 'false';
+    bool !== 'true' && (setbool = 'true');
+    setAllList((AllList) =>
+      AllList.map((allList) =>
+        allList.htmComCd === search.htmComCd
+          ? {
+              ...allList,
+              favorite: setbool,
+            }
+          : allList,
+      ),
+    );
+  }, []);
+
+  const onHeart = useCallback(
+    (search, favorite, sabun) => {
+      if (favorite !== 'true') {
+        var result = FVInsert(search, sabun);
+        if (result) changeFavorite(search, favorite);
+      } else {
+        result = FVRemove(search.htmComCd, sabun);
+        if (result) changeFavorite(search, favorite);
+      }
+    },
+    [FVRemove, FVInsert, changeFavorite],
+  );
+
+  const value = {
+    favoriteState: { favoriteList, AllList },
+    favoriteActions: { setFavoriteList, setAllList, onHeart },
+  };
+
+  return (
+    <FavoriteContext.Provider value={value}>
+      {props.children}
+    </FavoriteContext.Provider>
+  );
+};
+
+const { Consumer: FavoriteConsumer } = FavoriteContext;
+
+export { FavoriteProvider, FavoriteConsumer };
+
+export default FavoriteContext;
