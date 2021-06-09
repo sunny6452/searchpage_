@@ -63,13 +63,13 @@ const FVListTemplete = ({
           </Tabs>
           <br />
           {value === 0 ? (
-            <FavoriteTemplete
+            <FavoriteTemplate
               onHeart={onHeart}
               favoriteList={favoriteList}
               updatePrevList={updatePrevList}
             />
           ) : (
-            <PrevListTemplete
+            <PrevListTemplate
               prevLists={prevLists}
               updatePrevList={updatePrevList}
             />
